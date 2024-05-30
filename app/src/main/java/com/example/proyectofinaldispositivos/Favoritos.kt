@@ -35,18 +35,20 @@ import com.example.proyectofinaldispositivos.model.CartasEspalda
 
 // Favoritos.kt
 class FavoritosViewModel : ViewModel() {
-    val favoritos = mutableStateListOf<CartasEspalda>()
+    val favoritos = mutableStateListOf<Any>()
 
-    fun agregarAFavoritos(carta: CartasEspalda) {
+    fun agregarAFavoritos(carta: Any) {
         if (!favoritos.contains(carta)) {
             favoritos.add(carta)
         }
     }
 
-    fun eliminarDeFavoritos(carta: CartasEspalda) {
+    fun eliminarDeFavoritos(carta: Any) {
         favoritos.remove(carta)
     }
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,13 +94,27 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
         }
     ) { innerPadding ->
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
-            items(favoritosViewModel.favoritos) { espalda ->
-                EspaldaCard(
-                    navController = navController,
-                    cartasEspalda = espalda,
-                    onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
-                    modifier = Modifier.padding(8.dp)
-                )
+            items(favoritosViewModel.favoritos) { item ->
+                when (item) {
+                    is CartasEspalda -> EspaldaCard(
+                        navController = navController,
+                        cartasEspalda = item,
+                        onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    is CartasAbdominales -> Abdominales(
+                        navController = navController,
+                        cartasAbdominales = item,
+                        onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    is CartasBrazos -> BrazoCard(
+                        navController = navController,
+                        cartasBrazos = item,
+                        onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
             }
         }
     }

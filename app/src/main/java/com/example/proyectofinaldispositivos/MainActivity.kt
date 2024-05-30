@@ -44,10 +44,10 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("abdominales") {
                             // Aquí pasamos la lista completa a AbdominalesLista
-                            AbdominalesLista(navController = navController)
+                            AbdominalesLista(navController = navController, favoritosViewModel)
                         }
                         composable("Brazos") {
-                            Brazos(navController = navController)
+                            Brazos(navController = navController, favoritosViewModel)
                         }
                         composable("Espalda") {
                             Espalda(navController = navController, favoritosViewModel)

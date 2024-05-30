@@ -1,6 +1,7 @@
 package com.example.proyectofinaldispositivos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,10 +29,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -44,17 +51,41 @@ import com.example.proyectofinaldispositivos.model.CartasBrazos
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BrazoCard(navController: NavHostController, cartasBrazos: CartasBrazos, modifier: Modifier = Modifier) {
+fun BrazoCard(
+    navController: NavHostController,
+    cartasBrazos: CartasBrazos,
+    onFavoriteClick: (CartasBrazos) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isFavorite by remember { mutableStateOf(false) }
+
     Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
         Column {
-            Image(
-                painter = painterResource(cartasBrazos.imageResourceId),
-                contentDescription = stringResource(cartasBrazos.stringResourceId2),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(194.dp),
-                contentScale = ContentScale.Crop
-            )
+            Box {
+                Image(
+                    painter = painterResource(cartasBrazos.imageResourceId),
+                    contentDescription = stringResource(cartasBrazos.stringResourceId2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+                IconButton(
+                    onClick = {
+                        isFavorite = !isFavorite
+                        onFavoriteClick(cartasBrazos)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.Gray
+                    )
+                }
+            }
             Text(
                 text = stringResource(id = cartasBrazos.stringResourceId2),
                 modifier = Modifier.padding(16.dp),
@@ -71,7 +102,7 @@ fun BrazoCard(navController: NavHostController, cartasBrazos: CartasBrazos, modi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Brazos(navController: NavHostController) {
+fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -98,8 +129,8 @@ fun Brazos(navController: NavHostController) {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                IconButton(onClick = { /* Acción al hacer clic en el icono de corazón */ }) {
-                    Icon(Icons.Default.Favorite, contentDescription = "Favorite", modifier = Modifier.size(36.dp))
+                IconButton(onClick = { navController.navigate("favoritos") }) {
+                    Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { navController.navigate("menu") }) {
@@ -117,6 +148,7 @@ fun Brazos(navController: NavHostController) {
                 BrazoCard(
                     navController = navController,
                     cartasBrazos = brazos,
+                    onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -127,6 +159,5 @@ fun Brazos(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun BrazosPreview() {
-    // Usamos un NavHostController simulado para la vista previa
-    Brazos(navController = NavHostController(LocalContext.current))
+    Brazos(navController = NavHostController(LocalContext.current), favoritosViewModel = FavoritosViewModel())
 }

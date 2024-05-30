@@ -1,9 +1,9 @@
 package com.example.proyectofinaldispositivos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -34,25 +34,55 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.proyectofinaldispositivos.data.Datasource
 import com.example.proyectofinaldispositivos.model.CartasAbdominales
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Abdominales(navController: NavHostController, cartasAbdominales: CartasAbdominales, modifier: Modifier = Modifier) {
+fun Abdominales(
+    navController: NavHostController,
+    cartasAbdominales: CartasAbdominales,
+    onFavoriteClick: (CartasAbdominales) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isFavorite by remember { mutableStateOf(false) }
+
     Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
         Column {
-            Image(
-                painter = painterResource(cartasAbdominales.imageResourceId),
-                contentDescription = stringResource(cartasAbdominales.stringResourceId2),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(194.dp),
-                contentScale = ContentScale.Crop
-            )
+            Box {
+                Image(
+                    painter = painterResource(cartasAbdominales.imageResourceId),
+                    contentDescription = stringResource(cartasAbdominales.stringResourceId2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+                IconButton(
+                    onClick = {
+                        isFavorite = !isFavorite
+                        onFavoriteClick(cartasAbdominales)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.Gray
+                    )
+                }
+            }
             Text(
                 text = stringResource(id = cartasAbdominales.stringResourceId2),
                 modifier = Modifier.padding(16.dp),
@@ -69,7 +99,7 @@ fun Abdominales(navController: NavHostController, cartasAbdominales: CartasAbdom
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AbdominalesLista(navController: NavHostController) {
+fun AbdominalesLista(navController: NavHostController, favoritosViewModel: FavoritosViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -96,8 +126,8 @@ fun AbdominalesLista(navController: NavHostController) {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                IconButton(onClick = { /* Acción al hacer clic en el icono de corazón */ }) {
-                    Icon(Icons.Default.Favorite, contentDescription = "Favorite", modifier = Modifier.size(36.dp))
+                IconButton(onClick = { navController.navigate("favoritos") }) {
+                    Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { navController.navigate("menu") }) {
@@ -115,6 +145,7 @@ fun AbdominalesLista(navController: NavHostController) {
                 Abdominales(
                     navController = navController,
                     cartasAbdominales = abdominales,
+                    onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -125,7 +156,5 @@ fun AbdominalesLista(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun AbdominalesPreview() {
-    // Usamos un NavHostController simulado para la vista previa
-    AbdominalesLista(navController = NavHostController(LocalContext.current))
+    AbdominalesLista(navController = NavHostController(LocalContext.current), favoritosViewModel = FavoritosViewModel())
 }
-
