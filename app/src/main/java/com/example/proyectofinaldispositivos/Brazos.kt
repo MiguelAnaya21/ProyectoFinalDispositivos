@@ -1,5 +1,6 @@
 package com.example.proyectofinaldispositivos
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +24,50 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.navigation.NavHostController
+import com.example.proyectofinaldispositivos.data.Datasource
+import com.example.proyectofinaldispositivos.model.CartasBrazos
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BrazoCard(navController: NavHostController, cartasBrazos: CartasBrazos, modifier: Modifier = Modifier) {
+    Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
+        Column {
+            Image(
+                painter = painterResource(cartasBrazos.imageResourceId),
+                contentDescription = stringResource(cartasBrazos.stringResourceId2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = stringResource(id = cartasBrazos.stringResourceId2),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = stringResource(id = cartasBrazos.stringResourceId),
+                modifier = Modifier.padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +102,7 @@ fun Brazos(navController: NavHostController) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favorite", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = {navController.navigate("menu")}) {
+                IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -74,16 +112,14 @@ fun Brazos(navController: NavHostController) {
             }
         }
     ) { innerPadding ->
-        // Contenido adicional de la pantalla
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Text(
-                text = "Contenido de Brazos",
-                modifier = Modifier.padding(16.dp)
-            )
+        LazyColumn(modifier = Modifier.padding(innerPadding)) {
+            items(Datasource().loadBrazos()) { brazos ->
+                BrazoCard(
+                    navController = navController,
+                    cartasBrazos = brazos,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         }
     }
 }

@@ -11,4 +11,26 @@
     <string name="tit_abd5">Encogimientos de piernas</string>
     <string name="descAbd5">Tiempo: 20-50 seg\nSeries: 3\nDescanso: 1 min cada serie</string>
 
+    <string name="tit_bra1">Press de triceps</string>
+    <string name="descBra1">Repeticiones: 12\nSeries: 4\nDescanso: 5 min cada serie</string>
+    <string name="tit_bra2">Extension de triceps</string>
+    <string name="descBra2">Repeticiones: 15\nSeries: 4\nDescanso: 4 min cada serie</string>
+    <string name="tit_bra3">Fondos de Triceps</string>
+    <string name="descBra3">Repeticiones: 10\nSeries: 3\nDescanso: 5 min cada serie</string>
+    <string name="tit_bra4">Curl de biceps</string>
+    <string name="descBra4">Repeticiones: 14\nSeries: 4\nDescanso: 5 min cada serie</string>
+    <string name="tit_bra5">Elevaciones de hombro</string>
+    <string name="descBra5">Repeticiones: 10\nSeries: 3\nDescanso: 5 min cada serie</string>
+
+    <string name="tit_esp1">Dominadas</string>
+    <string name="descEsp1">Repeticiones: 10\nSeries: 3\nDescanso: 10 min cada serie</string>
+    <string name="tit_esp2">Remo con mancuernas</string>
+    <string name="descEsp2">Repeticiones: 15\nSeries: 4\nDescanso: 4 min cada serie</string>
+    <string name="tit_esp3">Peso Muerto</string>
+    <string name="descEsp3">Repeticiones: 8\nSeries: 4\nDescanso: 5 min cada serie</string>
+    <string name="tit_esp4">Estiramiento de Cobra</string>
+    <string name="descEsp4">Tiempo: 30-40 seg\nSeries: 3\nDescanso: 5 min cada serie</string>
+    <string name="tit_esp5">Lat Pulldown</string>
+    <string name="descEsp5">Repeticiones: 12\nSeries: 4\nDescanso: 5 min cada serie</string>
+
 </resources>

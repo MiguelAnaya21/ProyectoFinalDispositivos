@@ -1,5 +1,6 @@
 package com.example.proyectofinaldispositivos
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,9 +27,46 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import com.example.proyectofinaldispositivos.data.Datasource
+import com.example.proyectofinaldispositivos.model.CartasEspalda
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EspaldaCard(navController: NavHostController, cartasEspalda: CartasEspalda, modifier: Modifier = Modifier) {
+    Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
+        Column {
+            Image(
+                painter = painterResource(cartasEspalda.imageResourceId),
+                contentDescription = stringResource(cartasEspalda.stringResourceId2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = stringResource(id = cartasEspalda.stringResourceId2),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = stringResource(id = cartasEspalda.stringResourceId),
+                modifier = Modifier.padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,17 +111,14 @@ fun Espalda(navController: NavHostController) {
             }
         }
     ) { innerPadding ->
-        // Contenido adicional de la pantalla
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            // Aquí iría el contenido específico de la pantalla de Espalda
-            Text(
-                text = "Contenido de Espalda",
-                modifier = Modifier.padding(16.dp)
-            )
+        LazyColumn(modifier = Modifier.padding(innerPadding)) {
+            items(Datasource().loadEspalda()) { espalda ->
+                EspaldaCard(
+                    navController = navController,
+                    cartasEspalda = espalda,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         }
     }
 }
@@ -94,4 +129,5 @@ fun EspaldaPreview() {
     // Usamos un NavHostController simulado para la vista previa
     Espalda(navController = NavHostController(LocalContext.current))
 }
+
 
