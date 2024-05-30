@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ProyectoFinalDispositivos</string>
+    <string name="descAbd1">Tiempo: 30-50 seg\nSeries: 4\nDescanso: 1 min cada serie</string>
+    <string name="tit_abd1">Plancha</string>
+    <string name="tit_abd2">Plancha Piramide</string>
+    <string name="descAbd2">Tiempo: 30-40 seg\nSeries: 3\nDescanso: 30 seg cada serie</string>
+    <string name="tit_abd3">Elevacion de piernas y pelvis</string>
+    <string name="descAbd3">Tiempo: 45-60 seg\nSeries: 4\nDescanso: 1 min cada serie</string>
+    <string name="tit_abd4">Criss cross</string>
+    <string name="descAbd4">Tiempo: 25-40 seg\nSeries: 3\nDescanso: 1 min cada serie</string>
+    <string name="tit_abd5">Encogimientos de piernas</string>
+    <string name="descAbd5">Tiempo: 20-50 seg\nSeries: 3\nDescanso: 1 min cada serie</string>
+
+</resources>
