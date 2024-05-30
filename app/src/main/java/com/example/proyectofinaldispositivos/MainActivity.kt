@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val favoritosViewModel: FavoritosViewModel = viewModel()
             ProyectoFinalDispositivosTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     NavHost(navController = navController, startDestination = "bienvenida") {
@@ -48,9 +50,11 @@ class MainActivity : ComponentActivity() {
                             Brazos(navController = navController)
                         }
                         composable("Espalda") {
-                            Espalda(navController = navController)
+                            Espalda(navController = navController, favoritosViewModel)
                         }
-
+                        composable("favoritos"){
+                            Favoritos(navController = navController, favoritosViewModel)
+                        }
                     }
                 }
             }

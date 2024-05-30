@@ -37,7 +37,7 @@ fun Menu(navController: NavHostController) {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                IconButton(onClick = { /* Acción al hacer clic en el icono de corazón */ }) {
+                IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favorite", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
