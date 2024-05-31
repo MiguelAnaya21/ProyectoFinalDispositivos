@@ -11,9 +11,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,13 +58,15 @@ class MainActivity : ComponentActivity() {
                         composable("favoritos"){
                             Favoritos(navController = navController, favoritosViewModel)
                         }
+                        composable("informacion"){
+                            Informacion(navController = navController)
+                        }
                     }
                 }
             }
         }
     }
 }
-
 @Composable
 fun Bienvenida(navController: NavController, modifier: Modifier = Modifier) {
     Image(
@@ -78,24 +83,37 @@ fun Bienvenida(navController: NavController, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Energia Total",
             style = TextStyle(
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = Color.White,
-                fontStyle = FontStyle.Italic // Añade estilo cursiva
+                fontFamily = FontFamily.SansSerif,
+                shadow = Shadow(
+                    color = Color.Black,
+                    offset = Offset(2f, 2f),
+                    blurRadius = 4f
+                )
             ),
             modifier = Modifier.padding(16.dp)
         )
         Text(
             text = "Rutina de Ejercicios",
             style = TextStyle(
-                fontSize = 18.sp,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
                 fontStyle = FontStyle.Italic,
-                color = Color.White
+                color = Color.White,
+                fontFamily = FontFamily.Serif,
+                shadow = Shadow(
+                    color = Color.Black,
+                    offset = Offset(1f, 1f),
+                    blurRadius = 2f
+                )
             ),
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 32.dp)
         )
         Spacer(modifier = Modifier.height(200.dp))
         Button(
@@ -107,9 +125,12 @@ fun Bienvenida(navController: NavController, modifier: Modifier = Modifier) {
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 16.dp)
                 .height(50.dp),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White
+            )
         ) {
-            Text(text = "Comenzar", fontSize = 18.sp)
+            Text(text = "Comenzar", fontSize = 20.sp)
         }
     }
 }

@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -139,6 +140,10 @@ fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewMo
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { navController.navigate("Informacion") }) {
+                    Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }

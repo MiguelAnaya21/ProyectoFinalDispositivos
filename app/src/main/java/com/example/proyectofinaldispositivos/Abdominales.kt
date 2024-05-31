@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +50,7 @@ import com.example.proyectofinaldispositivos.model.CartasAbdominales
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Abdominales(
+fun AbdominalesCard(
     navController: NavHostController,
     cartasAbdominales: CartasAbdominales,
     onFavoriteClick: (CartasAbdominales) -> Unit,
@@ -104,12 +106,19 @@ fun AbdominalesLista(navController: NavHostController, favoritosViewModel: Favor
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Abdominales",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logoproyect),
+                            contentDescription = null, // Puedes poner una descripción si es necesario
+                            modifier = Modifier.size(36.dp).padding(end = 8.dp)
+                        )
+                        Text(
+                            text = "Abdominales",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(
@@ -137,12 +146,16 @@ fun AbdominalesLista(navController: NavHostController, favoritosViewModel: Favor
                 IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { navController.navigate("Informacion") }) {
+                    Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
+                }
             }
         }
     ) { innerPadding ->
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(Datasource().loadAbdominales()) { abdominales ->
-                Abdominales(
+                AbdominalesCard(
                     navController = navController,
                     cartasAbdominales = abdominales,
                     onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },

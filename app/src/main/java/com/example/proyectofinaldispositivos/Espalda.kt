@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
@@ -40,7 +42,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -105,12 +106,19 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Espalda",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logoproyect),
+                            contentDescription = null, // Puedes poner una descripción si es necesario
+                            modifier = Modifier.size(36.dp).padding(end = 8.dp)
+                        )
+                        Text(
+                            text = "Espalda",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(
@@ -137,6 +145,10 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { navController.navigate("Informacion") }) {
+                    Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }

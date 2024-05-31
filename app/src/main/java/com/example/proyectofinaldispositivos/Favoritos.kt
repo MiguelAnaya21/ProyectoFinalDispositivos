@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.BottomAppBar
 import com.example.proyectofinaldispositivos.model.CartasAbdominales
 import com.example.proyectofinaldispositivos.model.CartasBrazos
@@ -90,6 +91,10 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                 IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { navController.navigate("Informacion") }) {
+                    Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
+                }
             }
         }
     ) { innerPadding ->
@@ -102,7 +107,7 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                         onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
                         modifier = Modifier.padding(8.dp)
                     )
-                    is CartasAbdominales -> Abdominales(
+                    is CartasAbdominales -> AbdominalesCard(
                         navController = navController,
                         cartasAbdominales = item,
                         onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
