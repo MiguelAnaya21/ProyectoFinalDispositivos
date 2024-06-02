@@ -1,6 +1,7 @@
 package com.example.proyectofinaldispositivos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,10 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
@@ -54,6 +58,7 @@ fun EspaldaCard(
     navController: NavHostController,
     cartasEspalda: CartasEspalda,
     onFavoriteClick: (CartasEspalda) -> Unit,
+    onDayClick: (String, CartasEspalda) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isFavorite by remember { mutableStateOf(false) }
@@ -96,13 +101,36 @@ fun EspaldaCard(
                 style = MaterialTheme.typography.bodyLarge
             )
             Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly // Distribuye uniformemente los botones
+            ) {
+                val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
+                for (day in daysOfWeek) {
+                    Button(
+                        onClick = { onDayClick(day, cartasEspalda) },
+                        modifier = Modifier
+                            .padding(0.dp) // Elimina el padding
+                            .height(40.dp) // Ajusta la altura de los botones
+                            .width(40.dp), // Ajusta el ancho de los botones
+                        shape = CircleShape, // Forma circular para los botones
+                        contentPadding = PaddingValues(0.dp) // Elimina el padding del contenido
+                    ) {
+                        Text(
+                            text = day.first().toString(),
+                            fontSize = 14.sp, // Ajusta el tamaño del texto
+                            modifier = Modifier.padding(0.dp) // Elimina el padding
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewModel) {
+fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewModel, calendarioViewModel: CalendarioViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -144,7 +172,7 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
+                IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -160,6 +188,7 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
                     navController = navController,
                     cartasEspalda = espalda,
                     onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },
+                    onDayClick = { day, card -> calendarioViewModel.addEspaldaCardToDay(day, card)},
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -170,5 +199,9 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
 @Preview(showBackground = true)
 @Composable
 fun EspaldaPreview() {
-    Espalda(navController = NavHostController(LocalContext.current), favoritosViewModel = FavoritosViewModel())
+    Espalda(
+        navController = NavHostController(LocalContext.current),
+        favoritosViewModel = FavoritosViewModel(),
+        calendarioViewModel = CalendarioViewModel()
+    )
 }

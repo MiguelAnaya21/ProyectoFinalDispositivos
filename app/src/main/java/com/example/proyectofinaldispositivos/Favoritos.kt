@@ -105,6 +105,7 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                         navController = navController,
                         cartasEspalda = item,
                         onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
+                        onDayClick = { _, _ -> /* No se necesita acción */ },
                         modifier = Modifier.padding(8.dp)
                     )
                     is CartasAbdominales -> AbdominalesCard(
@@ -118,6 +119,7 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                         navController = navController,
                         cartasBrazos = item,
                         onFavoriteClick = { favoritosViewModel.eliminarDeFavoritos(it) },
+                        onDayClick = { _, _ -> /* No se necesita acción */ },
                         modifier = Modifier.padding(8.dp)
                     )
                 }

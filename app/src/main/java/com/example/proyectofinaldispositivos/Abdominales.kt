@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -36,9 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -101,18 +104,32 @@ fun AbdominalesCard(
             Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceEvenly // Distribuye uniformemente los botones
             ) {
                 val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
                 for (day in daysOfWeek) {
-                    Button(onClick = { onDayClick(day, cartasAbdominales) }) {
-                        Text(text = day)
+                    Button(
+                        onClick = { onDayClick(day, cartasAbdominales) },
+                        modifier = Modifier
+                            .padding(0.dp) // Elimina el padding
+                            .height(40.dp) // Ajusta la altura de los botones
+                            .width(40.dp), // Ajusta el ancho de los botones
+                        shape = CircleShape, // Forma circular para los botones
+                        contentPadding = PaddingValues(0.dp) // Elimina el padding del contenido
+                    ) {
+                        Text(
+                            text = day.first().toString(),
+                            fontSize = 14.sp, // Ajusta el tamaño del texto
+                            modifier = Modifier.padding(0.dp) // Elimina el padding
+                        )
                     }
                 }
             }
+
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,7 +195,7 @@ fun AbdominalesLista(
                     navController = navController,
                     cartasAbdominales = abdominales,
                     onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },
-                    onDayClick = { day, card -> calendarioViewModel.addCardToDay(day, card) },
+                    onDayClick = { day, card -> calendarioViewModel.addAbdominalesCardToDay(day, card)},
                     modifier = Modifier.padding(8.dp)
                 )
             }
