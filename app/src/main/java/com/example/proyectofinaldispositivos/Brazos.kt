@@ -97,6 +97,7 @@ fun BrazoCard(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

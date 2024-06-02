@@ -1,6 +1,7 @@
 package com.example.proyectofinaldispositivos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +56,7 @@ fun AbdominalesCard(
     navController: NavHostController,
     cartasAbdominales: CartasAbdominales,
     onFavoriteClick: (CartasAbdominales) -> Unit,
+    onDayClick: (String, CartasAbdominales) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isFavorite by remember { mutableStateOf(false) }
@@ -95,13 +98,29 @@ fun AbdominalesCard(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
+                for (day in daysOfWeek) {
+                    Button(onClick = { onDayClick(day, cartasAbdominales) }) {
+                        Text(text = day)
+                    }
+                }
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AbdominalesLista(navController: NavHostController, favoritosViewModel: FavoritosViewModel) {
+fun AbdominalesLista(
+    navController: NavHostController,
+    favoritosViewModel: FavoritosViewModel,
+    calendarioViewModel: CalendarioViewModel
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -143,7 +162,7 @@ fun AbdominalesLista(navController: NavHostController, favoritosViewModel: Favor
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
+                IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -159,6 +178,7 @@ fun AbdominalesLista(navController: NavHostController, favoritosViewModel: Favor
                     navController = navController,
                     cartasAbdominales = abdominales,
                     onFavoriteClick = { favoritosViewModel.agregarAFavoritos(it) },
+                    onDayClick = { day, card -> calendarioViewModel.addCardToDay(day, card) },
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -169,5 +189,9 @@ fun AbdominalesLista(navController: NavHostController, favoritosViewModel: Favor
 @Preview(showBackground = true)
 @Composable
 fun AbdominalesPreview() {
-    AbdominalesLista(navController = NavHostController(LocalContext.current), favoritosViewModel = FavoritosViewModel())
+    AbdominalesLista(
+        navController = NavHostController(LocalContext.current),
+        favoritosViewModel = FavoritosViewModel(),
+        calendarioViewModel = CalendarioViewModel()
+    )
 }

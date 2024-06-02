@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val favoritosViewModel: FavoritosViewModel = viewModel()
+            val calendarioViewModel: CalendarioViewModel = viewModel()
             ProyectoFinalDispositivosTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     NavHost(navController = navController, startDestination = "bienvenida") {
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("abdominales") {
                             // Aquí pasamos la lista completa a AbdominalesLista
-                            AbdominalesLista(navController = navController, favoritosViewModel)
+                            AbdominalesLista(navController = navController, favoritosViewModel, calendarioViewModel)
                         }
                         composable("Brazos") {
                             Brazos(navController = navController, favoritosViewModel)
@@ -60,6 +61,11 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("informacion"){
                             Informacion(navController = navController)
+                        }
+                        composable("calendario"){
+                            CalendarioScreen(navController = navController,
+                                calendarioViewModel = calendarioViewModel
+                            )
                         }
                     }
                 }
