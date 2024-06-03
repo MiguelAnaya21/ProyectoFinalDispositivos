@@ -36,33 +36,42 @@ import com.example.proyectofinaldispositivos.ui.theme.ProyectoFinalDispositivosT
 
 @Composable
 fun Menu(navController: NavHostController) {
+    // Verificar si el sistema está en modo oscuro
     val isSystemDarkTheme = isSystemInDarkTheme()
+    // Contenido del Scaffold
     Scaffold(
+        // Contenido del bottomBar
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Boton para ir a Favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favorite", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Boton para ir a Home
                 IconButton(onClick = { /* Acción al hacer clic en el icono de casa */ }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Boton para ir a calendario
                 IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Boton para ir a informacion
                 IconButton(onClick = { navController.navigate("informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        //Se aplica el tema para la vista
         ProyectoFinalDispositivosTheme(
             darkTheme = isSystemDarkTheme,
             content = {
+                //Contenido de la pantalla de menu
                 Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
                     Column(
                         modifier = Modifier
@@ -70,6 +79,7 @@ fun Menu(navController: NavHostController) {
                             .padding(bottom = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        //Este es el logo del proyecto
                         Image(
                             painter = painterResource(id = R.drawable.logoproyect),
                             contentDescription = null,
@@ -77,6 +87,7 @@ fun Menu(navController: NavHostController) {
                                 .size(90.dp) // Tamaño más pequeño del logo
                                 .padding(top = 16.dp) // Espacio superior
                         )
+                        //Texto del menu
                         Text(
                             text = "Menu",
                             fontSize = 24.sp,
@@ -85,16 +96,20 @@ fun Menu(navController: NavHostController) {
                             modifier = Modifier.padding(top = 10.dp)
                         )
                         Spacer(modifier = Modifier.height(16.dp)) // Espacio entre el logo y los botones
+                        //Columna para los botones de los ejercicios a realizar
                         Column(
                             modifier = Modifier.padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(5.dp)
                         ) {
+                            //Boton para ir a abdominales
                             ButtonRow(imageId = R.drawable.abdominales, buttonText = "Abdominales") {
                                 navController.navigate("abdominales")
                             }
+                            //Boton para ir a brazos
                             ButtonRow(imageId = R.drawable.brazos, buttonText = "Brazos") {
                                 navController.navigate("brazos")
                             }
+                            //Boton para ir a espalda
                             ButtonRow(imageId = R.drawable.espalda, buttonText = "Espalda") {
                                 navController.navigate("espalda")
                             }
@@ -106,18 +121,22 @@ fun Menu(navController: NavHostController) {
     }
 }
 
+//Fila de boton de ejercicio
 @Composable
 fun ButtonRow(
     @DrawableRes imageId: Int,
     buttonText: String,
     onClick: () -> Unit
 ) {
+    //Los card para el boton
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
     ) {
+        //Contiene el icono y el texto del ejercicio
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp)) {
+            //Imagen del ejercicio
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
@@ -125,11 +144,13 @@ fun ButtonRow(
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
+                //Texto del ejercicio
                 Text(
                     text = buttonText,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.inversePrimary
                 )
+                //Boton para iniciar el ejercicio
                 Button(onClick = onClick, modifier = Modifier.padding(top = 8.dp)) {
                     Text(
                         text = "Iniciar",
@@ -142,6 +163,7 @@ fun ButtonRow(
     }
 }
 
+//Vista previa del menu
 @Preview(showBackground = true)
 @Composable
 fun MenuPreview() {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProyectoFinalDispositivos</string>
+    <string name="descAbd1">Time: 30-50 sec\nSets: 4\nRest: 1 min each set</string>
+    <string name="tit_abd1">Plank</string>
+    <string name="tit_abd2">Pyramid Plank</string>
+    <string name="descAbd2">Time: 30-40 sec\nSets: 3\nRest: 30 sec each set</string>
+    <string name="tit_abd3">Leg and Pelvis Elevation</string>
+    <string name="descAbd3">Time: 45-60 sec\nSets: 4\nRest: 1 min each set</string>
+    <string name="tit_abd4">Criss Cross</string>
+    <string name="descAbd4">Time: 25-40 sec\nSets: 3\nRest: 1 min each set</string>
+    <string name="tit_abd5">Leg Crunches</string>
+    <string name="descAbd5">Time: 20-50 sec\nSets: 3\nRest: 1 min each set</string>
+
+    <string name="tit_bra1">Triceps Press</string>
+    <string name="descBra1">Repetitions: 12\nSets: 4\nRest: 5 min each set</string>
+    <string name="tit_bra2">Triceps Extension</string>
+    <string name="descBra2">Repetitions: 15\nSets: 4\nRest: 4 min each set</string>
+    <string name="tit_bra3">Triceps Dips</string>
+    <string name="descBra3">Repetitions: 10\nSets: 3\nRest: 5 min each set</string>
+    <string name="tit_bra4">Biceps Curl</string>
+    <string name="descBra4">Repetitions: 14\nSets: 4\nRest: 5 min each set</string>
+    <string name="tit_bra5">Shoulder Raises</string>
+    <string name="descBra5">Repetitions: 10\nSets: 3\nRest: 5 min each set</string>
+
+    <string name="tit_esp1">Pull-Ups</string>
+    <string name="descEsp1">Repetitions: 10\nSets: 3\nRest: 10 min each set</string>
+    <string name="tit_esp2">Dumbbell Row</string>
+    <string name="descEsp2">Repetitions: 15\nSets: 4\nRest: 4 min each set</string>
+    <string name="tit_esp3">Deadlift</string>
+    <string name="descEsp3">Repetitions: 8\nSets: 4\nRest: 5 min each set</string>
+    <string name="tit_esp4">Cobra Stretch</string>
+    <string name="descEsp4">Time: 30-40 sec\nSets: 3\nRest: 5 min each set</string>
+    <string name="tit_esp5">Lat Pulldown</string>
+    <string name="descEsp5">Repetitions: 12\nSets: 4\nRest: 5 min each set</string>
+</resources>

@@ -29,13 +29,14 @@ import com.example.proyectofinaldispositivos.model.CartasAbdominales
 import com.example.proyectofinaldispositivos.model.CartasBrazos
 import com.example.proyectofinaldispositivos.model.CartasEspalda
 
-// Define a data class to hold different types of cards for each day
+// Clase que junta las listas de ejercicios por dia
 data class DailyCards(
     val abdominales: MutableList<CartasAbdominales> = mutableListOf(),
     val brazos: MutableList<CartasBrazos> = mutableListOf(),
     val espalda: MutableList<CartasEspalda> = mutableListOf()
 )
 
+// Es la vista de la pantalla Calendario por cada dia de la semana
 class CalendarioViewModel : ViewModel() {
     private val _cardsByDay = mutableStateMapOf<String, DailyCards>(
         "Lun" to DailyCards(),
@@ -47,20 +48,25 @@ class CalendarioViewModel : ViewModel() {
         "Dom" to DailyCards()
     )
 
+    // cartas por dia
     val cardsByDay: Map<String, DailyCards> = _cardsByDay
 
+    //Añade las cartas por dia del ejercicio de abdominales
     fun addAbdominalesCardToDay(day: String, card: CartasAbdominales) {
         _cardsByDay[day]?.abdominales?.add(card)
     }
 
+    //Añade las cartas por dia del ejercicio de brazos
     fun addBrazosCardToDay(day: String, card: CartasBrazos) {
         _cardsByDay[day]?.brazos?.add(card)
     }
 
+    //Añade las cartas por dia del ejercicio de espalda
     fun addEspaldaCardToDay(day: String, card: CartasEspalda) {
         _cardsByDay[day]?.espalda?.add(card)
     }
 
+    // Limpia las cartas por dia
     fun clearDay(day: String) {
         _cardsByDay[day]?.abdominales?.clear()
         _cardsByDay[day]?.brazos?.clear()
@@ -74,39 +80,57 @@ fun CalendarioScreen(navController: NavHostController, calendarioViewModel: Cale
     val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
     Scaffold(
         topBar = {
+            //Barra de la parte superior
             TopAppBar(
+                //Titulo de la barra
                 title = { Text("Calendario", fontSize = 24.sp, fontWeight = FontWeight.Bold) },
                 actions = {
                     IconButton(
                         onClick = { navController.navigate("calendario") }
                     ) {
+                        //Actualiza las listas de ejercicios por dia
                         Icon(Icons.Default.Refresh, contentDescription = "Actualizar")
                     }
-                }
+                },
+                //Icono de regresar
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
             )
         },
+        //Barra inferior
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Icono de Favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de Menu
                 IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de calendario
                 IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de informacion
                 IconButton(onClick = { navController.navigate("Informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        //Columna para las cards de los ejercicios por dia
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(daysOfWeek) { day ->
                 val dailyCards = calendarioViewModel.cardsByDay[day]
@@ -116,11 +140,13 @@ fun CalendarioScreen(navController: NavHostController, calendarioViewModel: Cale
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        //Dia de la semana
                         Text(
                             text = day,
                             style = MaterialTheme.typography.headlineSmall,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
+                        //Boton para limpiar las cartas por dia
                         Button(onClick = { calendarioViewModel.clearDay(day) }) {
                             Text("Limpiar")
                         }
@@ -133,8 +159,8 @@ fun CalendarioScreen(navController: NavHostController, calendarioViewModel: Cale
                                 AbdominalesCard(
                                     navController = navController,
                                     cartasAbdominales = card,
-                                    onFavoriteClick = { /* No se necesita aquí */ },
-                                    onDayClick = { _, _ -> /* No se necesita aquí */ },
+                                    onFavoriteClick = {},
+                                    onDayClick = { _, _ ->},
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
@@ -158,6 +184,7 @@ fun CalendarioScreen(navController: NavHostController, calendarioViewModel: Cale
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
+                            //Muestra un mensaje si no hay ejercicios asignados
                         } else {
                             Text("No hay ejercicios asignados.")
                         }

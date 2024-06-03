@@ -65,10 +65,11 @@ fun BrazoCard(
     modifier: Modifier = Modifier
 ) {
     var isFavorite by remember { mutableStateOf(false) }
-
+    //Muestra la informacion de cada uno de los ejercicios del brazo
     Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
         Column {
             Box {
+                //Muestra la imagen del ejercicio para brazo
                 Image(
                     painter = painterResource(cartasBrazos.imageResourceId),
                     contentDescription = stringResource(cartasBrazos.stringResourceId2),
@@ -77,6 +78,7 @@ fun BrazoCard(
                         .height(194.dp),
                     contentScale = ContentScale.Crop
                 )
+                //Muestra el icono de favoritos
                 IconButton(
                     onClick = {
                         isFavorite = !isFavorite
@@ -93,21 +95,25 @@ fun BrazoCard(
                     )
                 }
             }
+            //Muestra el nombre del ejercicio
             Text(
                 text = stringResource(id = cartasBrazos.stringResourceId2),
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.headlineSmall
             )
+            //Muestra la descripcion del ejercicio
             Text(
                 text = stringResource(id = cartasBrazos.stringResourceId),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
             Spacer(modifier = Modifier.height(10.dp))
+            //Muestra los botones para seleccionar el dia del ejercicio
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly // Distribuye uniformemente los botones
             ) {
+                //Muestra los botones para seleccionar el dia del ejercicio
                 val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
                 for (day in daysOfWeek) {
                     Button(
@@ -119,6 +125,7 @@ fun BrazoCard(
                         shape = CircleShape, // Forma circular para los botones
                         contentPadding = PaddingValues(0.dp) // Elimina el padding del contenido
                     ) {
+                        //Muestra el dia del ejercicio
                         Text(
                             text = day.first().toString(),
                             fontSize = 14.sp, // Ajusta el tamaño del texto
@@ -131,11 +138,13 @@ fun BrazoCard(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewModel, calendarioViewModel: CalendarioViewModel) {
     Scaffold(
         topBar = {
+            //Contenido de la barra superior
             TopAppBar(
                 title = {
                     Text(
@@ -145,6 +154,7 @@ fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewMo
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 },
+                //Muestra el icono de retroceso
                 navigationIcon = {
                     IconButton(
                         onClick = { navController.popBackStack() },
@@ -156,30 +166,37 @@ fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewMo
                 modifier = Modifier.fillMaxWidth()
             )
         },
+        //Contenido de la barra inferior
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Muestra el icono de favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Muestra el icono de menu
                 IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Muestra el icono de calendario
                 IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Muestra el icono de informacion
                 IconButton(onClick = { navController.navigate("Informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        //Columna para mostrar los ejercicios del brazo
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(Datasource().loadBrazos()) { brazos ->
+                //Muestra los ejercicios del brazo
                 BrazoCard(
                     navController = navController,
                     cartasBrazos = brazos,
@@ -192,6 +209,7 @@ fun Brazos(navController: NavHostController, favoritosViewModel: FavoritosViewMo
     }
 }
 
+//Vista previa de la pantalla de Brazos
 @Preview(showBackground = true)
 @Composable
 fun BrazosPreview() {

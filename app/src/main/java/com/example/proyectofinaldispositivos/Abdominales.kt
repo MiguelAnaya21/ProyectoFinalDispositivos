@@ -56,17 +56,23 @@ import com.example.proyectofinaldispositivos.model.CartasAbdominales
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AbdominalesCard(
+    //El parametro para navegar entre pantallas
     navController: NavHostController,
+    //Objeto de tipo CartasAbdominales
     cartasAbdominales: CartasAbdominales,
+    //Funcion para agregar a favoritos
     onFavoriteClick: (CartasAbdominales) -> Unit,
+    //Funcion para agregar a calendario
     onDayClick: (String, CartasAbdominales) -> Unit,
+    //Modificador
     modifier: Modifier = Modifier
 ) {
     var isFavorite by remember { mutableStateOf(false) }
-
+    //Contiene la informacion de la card de los ejercicios de abdominales
     Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
         Column {
             Box {
+                //Imagen del ejercicio
                 Image(
                     painter = painterResource(cartasAbdominales.imageResourceId),
                     contentDescription = stringResource(cartasAbdominales.stringResourceId2),
@@ -75,6 +81,7 @@ fun AbdominalesCard(
                         .height(194.dp),
                     contentScale = ContentScale.Crop
                 )
+                //Icono de favorito con su funcionalidad
                 IconButton(
                     onClick = {
                         isFavorite = !isFavorite
@@ -91,22 +98,27 @@ fun AbdominalesCard(
                     )
                 }
             }
+            //Titulo del ejercicio
             Text(
                 text = stringResource(id = cartasAbdominales.stringResourceId2),
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.headlineSmall
             )
+            //Descripcion del ejercicio
             Text(
                 text = stringResource(id = cartasAbdominales.stringResourceId),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
             Spacer(modifier = Modifier.height(10.dp))
+            //Fila de botones para agregar a calendario
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly // Distribuye uniformemente los botones
             ) {
+                //Lista de los dias de la semana
                 val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
+                //Crea un boton por cada dia de la semana y le asigna la funcion onDayClick
                 for (day in daysOfWeek) {
                     Button(
                         onClick = { onDayClick(day, cartasAbdominales) },
@@ -138,16 +150,21 @@ fun AbdominalesLista(
     favoritosViewModel: FavoritosViewModel,
     calendarioViewModel: CalendarioViewModel
 ) {
+    //Contiene la barra superior e inferior de la pantalla
     Scaffold(
         topBar = {
+            //Barra superior de la pantalla
             TopAppBar(
+                //Titulo de la barra superior
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        //Logo de la barra superior
                         Image(
                             painter = painterResource(id = R.drawable.logoproyect),
                             contentDescription = null, // Puedes poner una descripción si es necesario
                             modifier = Modifier.size(36.dp).padding(end = 8.dp)
                         )
+                        //Texto de la barra superior
                         Text(
                             text = "Abdominales",
                             fontSize = 24.sp,
@@ -156,6 +173,7 @@ fun AbdominalesLista(
                         )
                     }
                 },
+                //Icono de retroceso
                 navigationIcon = {
                     IconButton(
                         onClick = { navController.popBackStack() },
@@ -167,30 +185,37 @@ fun AbdominalesLista(
                 modifier = Modifier.fillMaxWidth()
             )
         },
+        //Barra inferior de la pantalla
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Icono de favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de home
                 IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de calendario
                 IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de informacion
                 IconButton(onClick = { navController.navigate("Informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        //Lista de los ejercicios de abdominales
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(Datasource().loadAbdominales()) { abdominales ->
+                //Llamada a la funcion que muestra la card de los ejercicios de abdominales
                 AbdominalesCard(
                     navController = navController,
                     cartasAbdominales = abdominales,
@@ -203,6 +228,7 @@ fun AbdominalesLista(
     }
 }
 
+//Vista previa de la pantalla de abdominales
 @Preview(showBackground = true)
 @Composable
 fun AbdominalesPreview() {

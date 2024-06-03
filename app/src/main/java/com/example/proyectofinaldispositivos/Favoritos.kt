@@ -34,16 +34,18 @@ import com.example.proyectofinaldispositivos.model.CartasAbdominales
 import com.example.proyectofinaldispositivos.model.CartasBrazos
 import com.example.proyectofinaldispositivos.model.CartasEspalda
 
-// Favoritos.kt
+// Vista para la lista de favoritos
 class FavoritosViewModel : ViewModel() {
     val favoritos = mutableStateListOf<Any>()
 
+    // Agregar una carta a favoritos
     fun agregarAFavoritos(carta: Any) {
         if (!favoritos.contains(carta)) {
             favoritos.add(carta)
         }
     }
 
+    // Eliminar una carta de favoritos
     fun eliminarDeFavoritos(carta: Any) {
         favoritos.remove(carta)
     }
@@ -56,8 +58,10 @@ class FavoritosViewModel : ViewModel() {
 fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosViewModel) {
     Scaffold(
         topBar = {
+            // Barra superior
             TopAppBar(
                 title = {
+                    // Título de la barra superior
                     Text(
                         text = "Favoritos",
                         fontSize = 24.sp,
@@ -65,6 +69,7 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 },
+                // Icono de retroceso
                 navigationIcon = {
                     IconButton(
                         onClick = { navController.popBackStack() },
@@ -76,28 +81,34 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
                 modifier = Modifier.fillMaxWidth()
             )
         },
+        //Barra inferior
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Icono de Favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de Menu
                 IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* Acción al hacer clic en el icono de calendario */ }) {
+                //Icono de Calendario
+                IconButton(onClick = { navController.navigate("Calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de Informacion
                 IconButton(onClick = { navController.navigate("Informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        // Contenido de la lista de favoritos
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(favoritosViewModel.favoritos) { item ->
                 when (item) {
@@ -129,6 +140,7 @@ fun Favoritos(navController: NavHostController, favoritosViewModel: FavoritosVie
 }
 
 
+//Vista para la lista de favoritos
 @Preview(showBackground = true)
 @Composable
 fun FavoritosPreview() {

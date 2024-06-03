@@ -52,7 +52,7 @@ import androidx.navigation.NavHostController
 import com.example.proyectofinaldispositivos.data.Datasource
 import com.example.proyectofinaldispositivos.model.CartasEspalda
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun EspaldaCard(
     navController: NavHostController,
@@ -62,10 +62,11 @@ fun EspaldaCard(
     modifier: Modifier = Modifier
 ) {
     var isFavorite by remember { mutableStateOf(false) }
-
+    //Muestra la información de la card
     Card(modifier = modifier.padding(8.dp).fillMaxWidth()) {
         Column {
             Box {
+                //Imagen del ejercicio de espalda
                 Image(
                     painter = painterResource(cartasEspalda.imageResourceId),
                     contentDescription = stringResource(cartasEspalda.stringResourceId2),
@@ -74,6 +75,7 @@ fun EspaldaCard(
                         .height(194.dp),
                     contentScale = ContentScale.Crop
                 )
+                //Icono de favoritos
                 IconButton(
                     onClick = {
                         isFavorite = !isFavorite
@@ -90,22 +92,27 @@ fun EspaldaCard(
                     )
                 }
             }
+            //Nombre del ejercicio de espalda
             Text(
                 text = stringResource(id = cartasEspalda.stringResourceId2),
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.headlineSmall
             )
+            //Descripción del ejercicio de espalda
             Text(
                 text = stringResource(id = cartasEspalda.stringResourceId),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
             Spacer(modifier = Modifier.height(10.dp))
+            //Botones para seleccionar el día de la semana
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly // Distribuye uniformemente los botones
             ) {
+                //Lista de los dias de la semana
                 val daysOfWeek = listOf("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
+                //Crea un boton para cada dia de la semana
                 for (day in daysOfWeek) {
                     Button(
                         onClick = { onDayClick(day, cartasEspalda) },
@@ -133,14 +140,17 @@ fun EspaldaCard(
 fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewModel, calendarioViewModel: CalendarioViewModel) {
     Scaffold(
         topBar = {
+            //Muestra lo de la barra superior
             TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        //Logo de la app
                         Image(
                             painter = painterResource(id = R.drawable.logoproyect),
                             contentDescription = null, // Puedes poner una descripción si es necesario
                             modifier = Modifier.size(36.dp).padding(end = 8.dp)
                         )
+                        //Nombre de la pantalla
                         Text(
                             text = "Espalda",
                             fontSize = 24.sp,
@@ -149,6 +159,7 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
                         )
                     }
                 },
+                //Boton para regresar
                 navigationIcon = {
                     IconButton(
                         onClick = { navController.popBackStack() },
@@ -160,30 +171,37 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
                 modifier = Modifier.fillMaxWidth()
             )
         },
+        //Muestra lo de la barra inferior
         bottomBar = {
             BottomAppBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                //Icono de favoritos
                 IconButton(onClick = { navController.navigate("favoritos") }) {
                     Icon(Icons.Default.Favorite, contentDescription = "Favoritos", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de menu
                 IconButton(onClick = { navController.navigate("menu") }) {
                     Icon(Icons.Default.Home, contentDescription = "Home", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de calendario
                 IconButton(onClick = { navController.navigate("calendario") }) {
                     Icon(Icons.Default.DateRange, contentDescription = "Calendar", modifier = Modifier.size(36.dp))
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                //Icono de informacion
                 IconButton(onClick = { navController.navigate("Informacion") }) {
                     Icon(Icons.Default.Info, contentDescription = "Informacion", modifier = Modifier.size(36.dp))
                 }
             }
         }
     ) { innerPadding ->
+        //Columna desplazable que contiene la lista de ejercicios de espalda
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(Datasource().loadEspalda()) { espalda ->
+                //Cada elemento de la lista de los ejercicios de espalda
                 EspaldaCard(
                     navController = navController,
                     cartasEspalda = espalda,
@@ -196,6 +214,7 @@ fun Espalda(navController: NavHostController, favoritosViewModel: FavoritosViewM
     }
 }
 
+//Vista previa de la pantalla de espalda
 @Preview(showBackground = true)
 @Composable
 fun EspaldaPreview() {
